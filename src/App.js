@@ -15,6 +15,8 @@ import PersistLogin from './features/auth/PersistLogin'
 import RequireAuth from './features/auth/RequireAuth'
 import { ROLES } from './config/roles'
 import useTitle from "./hooks/useTitle";
+import TournamentList from "./features/tournaments/TournamentList";
+import NewTournamentForm from "./features/tournaments/NewTournamentForm";
 
 function App() {
     useTitle('Padel Factory')
@@ -45,6 +47,11 @@ function App() {
                                     <Route index element={<NotesList />} />
                                     <Route path=":id" element={<EditNote />} />
                                     <Route path="new" element={<NewNote />} />
+                                </Route>
+
+                                <Route path="tournaments">
+                                    <Route index element={<TournamentList />} />
+                                    <Route path={"new"} element={<NewTournamentForm/>}/>
                                 </Route>
 
                             </Route>{/* End Dash */}

@@ -13,25 +13,25 @@ const initialState = tournamentAdapter.getInitialState()
 export const tournamentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getTournament: builder.query({
-            query: () => '/tournament',
+            query: () => '/tournaments',
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError
             },
             keepUnusedDataFor: 5,
             transformResponse: responseData => {
-                const loadedTournament = responseData.map(note => {
-                    note.id = note._id
-                    return note
+                const loadedTournament = responseData.map(tournament => {
+                    tournament.id = tournament._id
+                    return tournament
                 });
                 return tournamentAdapter.setAll(initialState, loadedTournament)
             },
             providesTags: (result, error, arg) => {
                 if (result?.ids) {
                     return [
-                        { type: 'Note', id: 'LIST' },
-                        ...result.ids.map(id => ({ type: 'Note', id }))
+                        { type: 'Tournament', id: 'LIST' },
+                        ...result.ids.map(id => ({ type: 'Tournament', id }))
                     ]
-                } else return [{ type: 'Note', id: 'LIST' }]
+                } else return [{ type: 'Tournament', id: 'LIST' }]
             }
         }),
     }),
@@ -53,7 +53,7 @@ const selectTournamentData = createSelector(
 //getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
     selectAll: selectAllTournament,
-    selectById: selectNoteById,
-    selectIds: selectNoteIds
+    selectById: selectTournamentById,
+    selectIds: selectTournamentIds
     // Pass in a selector that returns the tournament slice of state
 } = tournamentAdapter.getSelectors(state => selectTournamentData(state) ?? initialState)
