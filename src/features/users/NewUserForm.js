@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import { useAddNewUserMutation } from "./usersApiSlice"
-import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave } from "@fortawesome/free-solid-svg-icons"
 import { ROLES } from "../../config/roles"
@@ -17,7 +16,6 @@ const NewUserForm = () => {
         error
     }] = useAddNewUserMutation()
 
-    const navigate = useNavigate()
 
     const [username, setUsername] = useState('')
     const [validUsername, setValidUsername] = useState(false)
@@ -38,9 +36,8 @@ const NewUserForm = () => {
             setUsername('')
             setPassword('')
             setRoles([])
-            navigate('/dash/users')
         }
-    }, [isSuccess, navigate])
+    }, [isSuccess])
 
     const onUsernameChanged = e => setUsername(e.target.value)
     const onPasswordChanged = e => setPassword(e.target.value)

@@ -24,6 +24,7 @@ function App() {
                 {/* public routes */}
                 <Route index element={<Public />} />
                 <Route path="login" element={<Login />} />
+                <Route path="new" element={<NewUserForm />} />
 
                 {/* Protected Routes */}
                 <Route element={<PersistLogin />}>
@@ -37,7 +38,6 @@ function App() {
                                     <Route path="users">
                                         <Route index element={<UsersList />} />
                                         <Route path=":id" element={<EditUser />} />
-                                        <Route path="new" element={<NewUserForm />} />
                                     </Route>
                                 </Route>
 

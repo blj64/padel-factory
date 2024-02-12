@@ -106,6 +106,7 @@ const Login = () => {
             </main>
             <footer>
                 <Link to="/">Back to Home</Link>
+                <Link to={"/new"}>S'inscrire</Link>
             </footer>
         </section>
     )
