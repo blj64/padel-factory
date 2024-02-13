@@ -14,7 +14,6 @@ import { useSendLogoutMutation } from '../features/auth/authApiSlice'
 import useAuth from '../hooks/useAuth'
 
 const DASH_REGEX = /^\/dash(\/)?$/
-const NOTES_REGEX = /^\/dash\/notes(\/)?$/
 const USERS_REGEX = /^\/dash\/users(\/)?$/
 
 const DashHeader = () => {
@@ -34,28 +33,14 @@ const DashHeader = () => {
         if (isSuccess) navigate('/')
     }, [isSuccess, navigate])
 
-    const onNewNoteClicked = () => navigate('/dash/notes/new')
     const onNewUserClicked = () => navigate('/dash/users/new')
-    const onNotesClicked = () => navigate('/dash/notes')
     const onUsersClicked = () => navigate('/dash/users')
 
     let dashClass = null
-    if (!DASH_REGEX.test(pathname) && !NOTES_REGEX.test(pathname) && !USERS_REGEX.test(pathname)) {
+    if (!DASH_REGEX.test(pathname) && !USERS_REGEX.test(pathname)) {
         dashClass = "dash-header__container--small"
     }
 
-    let newNoteButton = null
-    if (NOTES_REGEX.test(pathname)) {
-        newNoteButton = (
-            <button
-                className="icon-button"
-                title="New Note"
-                onClick={onNewNoteClicked}
-            >
-                <FontAwesomeIcon icon={faFileCirclePlus} />
-            </button>
-        )
-    }
 
     let newUserButton = null
     if (USERS_REGEX.test(pathname)) {
@@ -85,18 +70,7 @@ const DashHeader = () => {
         }
     }
 
-    let notesButton = null
-    if (!NOTES_REGEX.test(pathname) && pathname.includes('/dash')) {
-        notesButton = (
-            <button
-                className="icon-button"
-                title="Notes"
-                onClick={onNotesClicked}
-            >
-                <FontAwesomeIcon icon={faFilePen} />
-            </button>
-        )
-    }
+
 
     const logoutButton = (
         <button
@@ -116,9 +90,7 @@ const DashHeader = () => {
     } else {
         buttonContent = (
             <>
-                {newNoteButton}
                 {newUserButton}
-                {notesButton}
                 {userButton}
                 {logoutButton}
             </>
