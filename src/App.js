@@ -17,6 +17,7 @@ import { ROLES } from './config/roles'
 import useTitle from "./hooks/useTitle";
 import TournamentList from "./features/tournaments/TournamentList";
 import NewTournamentForm from "./features/tournaments/NewTournamentForm";
+import EditTournament from "./features/tournaments/EditTournament";
 
 function App() {
     useTitle('Padel Factory')
@@ -51,6 +52,7 @@ function App() {
 
                                 <Route path="tournaments">
                                     <Route index element={<TournamentList />} />
+                                    <Route path={":id"} element={<EditTournament />}/>
                                     <Route path={"new"} element={<NewTournamentForm/>}/>
                                 </Route>
 

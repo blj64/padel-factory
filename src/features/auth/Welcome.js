@@ -18,6 +18,9 @@ const Welcome = () => {
             }
             <p><Link to="/dash/tournaments">View Tournaments Settings</Link></p>
 
+            <p><Link to="/dash/tournaments/new">Add New Tournaments</Link></p>
+
+
             <p><Link to={"/dash/notes/new"}>Add New Note</Link></p>
 
             {(isManager || isAdmin) && <p><Link to={"/dash/users/new"}>Add New Users</Link></p>

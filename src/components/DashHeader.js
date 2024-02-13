@@ -132,7 +132,7 @@ const DashHeader = () => {
             <header className="dash-header">
                 <div className={`dash-header__container ${dashClass}`}>
                     <Link to="/dash">
-                        <h1 className="dash-header__title">techNotes</h1>
+                        <img src="https://padel-factory.fr/wp-content/uploads/2020/02/PadelFactoryLogo.png" alt="logo" />
                     </Link>
                     <nav className="dash-header__nav">
                         {buttonContent}

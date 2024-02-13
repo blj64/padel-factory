@@ -4,20 +4,19 @@ import {
 } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice"
 
-const tournamentAdapter = createEntityAdapter({
-    sortComparer: (a, b) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1
-})
+const tournamentAdapter = createEntityAdapter({})
 
 const initialState = tournamentAdapter.getInitialState()
 
 export const tournamentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getTournament: builder.query({
-            query: () => '/tournaments',
-            validateStatus: (response, result) => {
-                return response.status === 200 && !result.isError
-            },
-            keepUnusedDataFor: 5,
+            query: () => ({
+                url: '/tournaments',
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
             transformResponse: responseData => {
                 const loadedTournament = responseData.map(tournament => {
                     tournament.id = tournament._id
@@ -34,11 +33,48 @@ export const tournamentApiSlice = apiSlice.injectEndpoints({
                 } else return [{ type: 'Tournament', id: 'LIST' }]
             }
         }),
+        addNewTournament: builder.mutation({
+            query: initialTournamentData => ({
+                url: '/tournaments',
+                method: 'POST',
+                body: {
+                    ...initialTournamentData,
+                }
+            }),
+            invalidatesTags: [
+                { type: 'Tournament', id: "LIST" }
+            ]
+        }),
+        updateTournament: builder.mutation({
+            query: initialTournament => ({
+                url: '/tournaments',
+                method: 'PATCH',
+                body: {
+                    ...initialTournament,
+                }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Tournament', id: arg.id}
+            ]
+        }),
+        deleteTournament: builder.mutation({
+            query: ({ id }) => ({
+                url: '/tournaments',
+                method: 'DELETE',
+                body: { id }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Tournament', id: arg.id}
+            ]
+        }),
     }),
 })
 
 export const {
     useGetTournamentQuery,
+    useAddNewTournamentMutation,
+    useUpdateTournamentMutation,
+    useDeleteTournamentMutation,
 } = tournamentApiSlice
 
 // returns the query result object

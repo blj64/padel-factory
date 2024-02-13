@@ -13,7 +13,7 @@ const Tournament = ({ tournamentId }) => {
 
     if (tournament) {
 
-        const handleEdit = () => navigate(`/dash/tournament/${tournamentId}`)
+        const handleEdit = () => navigate(`/dash/tournaments/${tournamentId}`)
 
         return (
             <tr className="table__row">

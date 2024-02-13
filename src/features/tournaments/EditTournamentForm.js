@@ -1,61 +1,91 @@
 import { useState, useEffect } from "react";
-import { useAddNewTournamentMutation} from "../tournaments/tournamentApiSlice";
+import {useDeleteTournamentMutation, useUpdateTournamentMutation} from "../tournaments/tournamentApiSlice";
 import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faSave} from "@fortawesome/free-solid-svg-icons";
+import {faSave, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
+import {useDeleteUserMutation} from "../users/usersApiSlice";
 
-
-
-const NewTournamentForm = () => {
+const EditTournamentForm = ({ tournament }) => {
     const navigate = useNavigate()
 
-    const [addNewTournament, {
+    const [updateTournament , {
         isLoading,
         isSuccess,
         isError,
         error
-    }] = useAddNewTournamentMutation()
+    }] = useUpdateTournamentMutation()
 
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [date, setDate] = useState('0000-00-00T00:00:00Z')
-    const [player, setPlayer] = useState(16)
+    const [deleteTournament, {
+        isSuccess: isDelSuccess,
+        isError: isDelError,
+        error: delerror
+    }] = useDeleteTournamentMutation()
+
+
+    const initialName = tournament.name || '';
+    const initialDescription = tournament.description || '';
+    const initialDate = tournament.date || '';
+    const initialPlayer = tournament.player || 16;
+    const initialActive = tournament.active || false;
+
+    const [name, setName] = useState(initialName);
+    const [description, setDescription] = useState(initialDescription);
+    const [date, setDate] = useState(initialDate);
+    const [player, setPlayer] = useState(initialPlayer);
+    const [active, setActive] = useState(initialActive);
+
 
     useEffect(() => {
-        if (isSuccess) {
+        console.log(isSuccess)
+        if (isSuccess || isDelSuccess) {
             setName('')
             setDescription('')
             setDate('')
             setPlayer(16)
+            navigate('/dash/tournaments')
         }
-    }, [isSuccess])
+    }, [isSuccess, isDelSuccess, navigate])
 
     const onNameChanged = e => setName(e.target.value)
     const onDescriptionChanged = e => setDescription(e.target.value)
     const onDateChanged = e => setDate(e.target.value)
     const onPlayerChanged = e => setPlayer(e.target.value)
 
+    const onActiveChanged = () => setActive(prev => !prev)
+
     const onSaveTournamentClicked = async (e) => {
-        e.preventDefault()
-        await addNewTournament({name, description, date, player})
-        navigate("/dash/tournaments")
+       await updateTournament({ id: tournament.id, name, description, date, player, active})
     }
+
+    const onDeleteTournamentClicked = async () => {
+        await deleteTournament({ id: tournament.id })
+    }
+
     const errClass = isError ? "errmsg" : "offscreen"
 
     const content = (
         <>
             <p className={errClass}>{error?.data?.message}</p>
 
-            <form className={"form"} onSubmit={onSaveTournamentClicked}>
+            <form className={"form"} onSubmit={e => e.preventDefault()}>
 
                 <div className={"form__title-row"}>
-                    <h2>New Tournament</h2>
+                    <h2>Edit Tournament</h2>
                     <div className="form__action-buttons">
                         <button
                             className="icon-button"
                             title="Save"
+                            onClick={onSaveTournamentClicked}
+
                         >
                             <FontAwesomeIcon icon={faSave} />
+                        </button>
+                        <button
+                            className={'icon-button'}
+                            title={"Delete"}
+                            onClick={onDeleteTournamentClicked}
+                        >
+                            <FontAwesomeIcon icon={faTrashCan} />
                         </button>
                     </div>
                 </div>
@@ -76,7 +106,7 @@ const NewTournamentForm = () => {
                 <label htmlFor="text" className={"form__label"}>
                     Description:
                 </label>
-                <input
+                 <input
                     className={"form__input form__input--text"}
                     type="text"
                     id={"description"}
@@ -97,7 +127,7 @@ const NewTournamentForm = () => {
                     value={date}
                     onChange={onDateChanged}
                 />
-                <label htmlFor="ayer" className={"form__label"}>
+                <label htmlFor="player" className={"form__label"}>
                     Nb Player:
                 </label>
                 <input
@@ -108,6 +138,17 @@ const NewTournamentForm = () => {
                     value={player}
                     onChange={onPlayerChanged}
                 />
+                <label className="form__label form__checkbox-container" htmlFor="tournament-active">
+                    ACTIVE:
+                    <input
+                        className="form__checkbox"
+                        id="tournament-active"
+                        name="tournament-active"
+                        type="checkbox"
+                        checked={active}
+                        onChange={onActiveChanged}
+                    />
+                </label>
 
             </form>
         </>
@@ -115,4 +156,4 @@ const NewTournamentForm = () => {
     return content
 }
 
-export default NewTournamentForm
+export default EditTournamentForm
