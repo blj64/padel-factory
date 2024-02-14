@@ -5,11 +5,15 @@ module.exports = {
         colors: {
             'red-padel': '#dc2626',
             'white': '#ffffff',
-            'black': '#ffffff'
+            'black': '#000000',
+            'testing1': '#c29d32',
+            'testing2': '#4b6af5',
+            'testing3': '#d528e8'
+
         },
         extend: {
             backgroundImage: {
-                'padel-image': "url('./src/img/08191.jpg')",
+                'padel-image': "url('../img/08191.jpg')",
             }
 
         },

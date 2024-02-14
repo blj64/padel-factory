@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* styles/style.css */
+@font-face {
+    font-family: 'Ethnocentric';
+    src: url('../assets/fonts/ethnocentric.regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,26 +1,34 @@
 import { Link } from 'react-router-dom'
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import styles from "../styles/style";
+import Hero from "./Hero";
+import backgroundImage from "../img/08191.jpg";
 
 const Public = () => {
     const content = (
-        <section className="public">
-            <header>
-                <h1>Welcome to <span className="nowrap">Dan D. Repairs!</span></h1>
-            </header>
-            <main className="public__main">
-                <p>Located in Beautiful Downtown Foo City, Dan D. Repairs  provides a trained staff ready to meet your tech repair needs.</p>
-                <address className="public__addr">
-                    Dan D. Repairs<br />
-                    555 Foo Drive<br />
-                    Foo City, CA 12345<br />
-                    <a href="tel:+15555555555">(555) 555-5555</a>
-                </address>
-                <br />
-                <p>Owner: Dan Davidson</p>
-            </main>
-            <footer className={"bg-gray-900 text-white text-center py-4"}>
-                <Link to="/login">Employee Login</Link>
-            </footer>
-        </section>
+        <div className="bg-testing1 w-full overflow-hidden position-relative">
+            <div className={`bg-black opacity-75 z-50 absolute`}>
+                <div className={`${styles.boxWidth}`}>
+                    <Navbar />
+                </div>
+            </div>
+            <div className={` flex justify-center ${styles.paddingY} md:h-auto`} style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                height: '8000px'
+            }}>
+                <div className={` p-40 ${styles.boxWidth}`}>
+                    <Hero />
+                </div>
+            </div>
+            <div className={`bg-testing2 ${styles.paddingX} ${styles.flexCenter}`}>
+                <div className={`${styles.boxWidth}`}>
+                    <Footer />
+                </div>
+            </div>
+        </div>
 
     )
     return content
